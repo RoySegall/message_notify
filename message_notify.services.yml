@@ -1,0 +1,3 @@
+services:
+  plugin.manager.message.notify:
+    class: Drupal\message_notify\Plugin\MessageNotifyPluginManager

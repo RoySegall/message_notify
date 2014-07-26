@@ -2,7 +2,6 @@
 
 namespace Drupal\message_notifier\Plugin\Notifier;
 
-use Drupal\language\Entity\Language;
 use Drupal\message_notify\MessageNotifierAbstract;
 
 /**
