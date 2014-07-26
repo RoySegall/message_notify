@@ -1,13 +1,8 @@
-name = Message notify
-description = "Message notify."
-core = 7.x
-package = Message
-dependencies[] = message
-dependencies[] = ctools
+name: Message notify
+type: module
+description: "Message notify."
+core: 8.x
+package: Message
 
-; Notifier plugins
-files[] = includes/message_notify.exception.inc
-files[] = plugins/notifier/abstract.inc
-
-; Tests
-files[] = message_notify.test
+dependencies:
+  - message
