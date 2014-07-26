@@ -9,11 +9,12 @@ use Drupal\message_notify\MessageNotifyException;
 /**
  * Redirects to a message deletion form.
  *
- * todo: Add view modes.
- *
  * @Notify(
  *  id = "SMS",
  *  label = @Translation("Email"),
+ *  view_modes = {
+ *    "sms_body" = @Translation("Notify - SMS Body"),
+ *  },
  * )
  */
 class Sms extends MessageNotifierAbstract {

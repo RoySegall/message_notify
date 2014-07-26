@@ -4,15 +4,25 @@
  * @file
  * Message notify.
  */
+use Drupal\message_notify\MessageNotify;
 
 /**
  * Implements hook_entity_info_alter().
  *
  * Add a the notifiers view modes.
  */
-function message_notify_entity_info_alter(&$entity_info) {
-  // todo: Get all the plugins and add view modes to the message entity.
+function message_notify_entity_type_alter(&$entity_info) {
+  $notifiers = MessageNotify::GetNotifiers();
+
+  foreach ($notifiers as $notifier) {
+
+  }
+
   return;
+  /* @var $entity_info \Drupal\Core\Entity\EntityTypeInterface[] */
+
+  $entity_info['message'];
+
   foreach (message_notify_get_notifiers() as $plugin) {
     $view_modes = $plugin['view_modes'];
     // Set default values.

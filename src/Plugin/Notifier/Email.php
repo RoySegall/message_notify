@@ -7,11 +7,13 @@ use Drupal\message_notify\MessageNotifierAbstract;
 /**
  * Redirects to a message deletion form.
  *
- * todo: Add view modes.
- *
  * @Notify(
  *  id = "Email",
  *  label = @Translation("Email"),
+ *  view_modes = {
+ *    "email_subject" = @Translation("Notify - Email subject"),
+ *    "email_body" = @Translation("Notify - Email body"),
+ *  },
  * )
  */
 class Email extends MessageNotifierAbstract {
