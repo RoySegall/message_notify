@@ -9,13 +9,10 @@ interface MessageNotifierInterface {
   /**
    * Constructor for the notifier.
    *
-   * @param $plugin
-   *   The notifier plugin object. Note the "options" values might have
-   *   been overridden in message_notify_send_message().
    * @param Message $message
    *   The Message entity.
    */
-  public function __construct($plugin, Message $message);
+  public function __construct(Message $message);
 
   /**
    * Entry point to send and process a message.

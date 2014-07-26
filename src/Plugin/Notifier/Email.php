@@ -2,6 +2,7 @@
 
 namespace Drupal\message_notifier\Plugin\Notifier;
 
+use Drupal\language\Entity\Language;
 use Drupal\message_notify\MessageNotifierAbstract;
 
 /**
@@ -19,15 +20,13 @@ use Drupal\message_notify\MessageNotifierAbstract;
 class Email extends MessageNotifierAbstract {
 
   public function deliver(array $output = array()) {
-    $plugin = $this->plugin;
     $message = $this->message;
 
     $options = $plugin['options'];
 
-    $account = user_load($message->uid);
-    $mail = $options['mail'] ? $options['mail'] : $account->mail;
+    $mail = $options['mail'] ? $options['mail'] : $this->message->getAuthor()->getEmail();
 
-    $languages = language_list();
+    $languages = \Drupal::languageManager()->getLanguages();
     if (!$options['language override']) {
       $lang = !empty($account->language) && $account->language != LANGUAGE_NONE ? $languages[$account->language]: language_default();
     }

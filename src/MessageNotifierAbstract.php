@@ -10,17 +10,13 @@ use \Drupal\message\Entity\Message;
 abstract class MessageNotifierAbstract implements MessageNotifierInterface {
 
   /**
-   * The plugin definition.
-   */
-  protected $plugin;
-
-  /**
+   * @var Message
+   *
    * The message entity.
    */
   protected $message;
 
-  public function __construct($plugin, Message $message) {
-    $this->plugin = $plugin;
+  public function __construct(Message $message) {
     $this->message = $message;
   }
 
