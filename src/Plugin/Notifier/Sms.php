@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\message_notifier\Plugin\Notifier;
+namespace Drupal\message_notify\Plugin\Notifier;
 
 use Drupal\message_notify\MessageNotifierAbstract;
 use Drupal\message_notify\MessageNotifyException;
@@ -9,12 +9,11 @@ use Drupal\message_notify\MessageNotifyException;
 /**
  * Redirects to a message deletion form.
  *
- * @Notifier(
- *  id = "sms",
- *  label = @Translation("SMS"),
- *  view_modes = {
- *    sms_body = @Translation("Notify - SMS Body"),
- *  }
+ * todo: Add view modes.
+ *
+ * @Notify(
+ *  id = "SMS",
+ *  label = @Translation("Email"),
  * )
  */
 class Sms extends MessageNotifierAbstract {

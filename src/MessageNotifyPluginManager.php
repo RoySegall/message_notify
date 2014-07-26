@@ -5,21 +5,19 @@
  * Contains \Drupal\message_notify\Plugin\MessageNotifyPluginManager.
  */
 
-namespace Drupal\message_notify\Plugin;
+namespace Drupal\message_notify;
 
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
-use Drupal\Core\StringTranslation\TranslationInterface;
 
 /**
  * Manages Person plugins.
  */
 class MessageNotifyPluginManager extends DefaultPluginManager {
 
-
   /**
-   * Constructs a CKEditorPluginManager object.
+   * Constructs a MessageNotify object.
    *
    * @param \Traversable $namespaces
    *   An object that implements \Traversable which contains the root paths
@@ -31,8 +29,8 @@ class MessageNotifyPluginManager extends DefaultPluginManager {
    */
   public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
     parent::__construct('Plugin/Notifier', $namespaces, $module_handler, 'Drupal\message_notify\Annotation\Notify');
-//    $this->alterInfo('ckeditor_plugin_info');
-//    $this->setCacheBackend($cache_backend, 'ckeditor_plugins');
+    $this->alterInfo('message_notifier_alter');
+    $this->setCacheBackend($cache_backend, 'message_notify_plugins');
   }
 
 }

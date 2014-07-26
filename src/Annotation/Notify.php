@@ -10,35 +10,15 @@ namespace Drupal\message_notify\Annotation;
 use Drupal\Component\Annotation\Plugin;
 
 /**
- * Defines a CKEditorPlugin annotation object.
+ * Define a message notify annotation object.
  *
- * Plugin Namespace: Plugin\CKEditorPlugin
- *
- * For a working example, see \Drupal\ckeditor\Plugin\CKEditorPlugin\DrupalImage
- *
- * @see \Drupal\ckeditor\CKEditorPluginInterface
- * @see \Drupal\ckeditor\CKEditorPluginBase
- * @see \Drupal\ckeditor\CKEditorPluginManager
- * @see plugin_api
+ * todo: Add default settings.
  *
  * @Annotation
  */
 class Notify extends Plugin {
 
-  /**
-   * The plugin ID.
-   *
-   * @var string
-   */
   public $id;
-
-  /**
-   * The human-readable name of the CKEditor plugin.
-   *
-   * @ingroup plugin_translatable
-   *
-   * @var \Drupal\Core\Annotation\Translation
-   */
   public $label;
 
 }

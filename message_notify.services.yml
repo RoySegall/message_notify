@@ -1,4 +1,4 @@
 services:
   plugin.manager.message.notify:
-    class: Drupal\message_notify\Plugin\MessageNotifyPluginManager
+    class: Drupal\message_notify\MessageNotifyPluginManager
     parent: default_plugin_manager

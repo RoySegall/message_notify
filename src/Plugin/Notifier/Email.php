@@ -1,19 +1,17 @@
 <?php
 
-namespace Drupal\message_notifier\Plugin\Notifier;
+namespace Drupal\message_notify\Plugin\Notifier;
 
 use Drupal\message_notify\MessageNotifierAbstract;
 
 /**
  * Redirects to a message deletion form.
  *
- * @Notifier(
- *  id = "email",
+ * todo: Add view modes.
+ *
+ * @Notify(
+ *  id = "Email",
  *  label = @Translation("Email"),
- *  view_modes = {
- *    email_subject = @Translation("Notify - Email subject"),
- *    email_body = @Translation("Notify - Email body"),
- *  }
  * )
  */
 class Email extends MessageNotifierAbstract {
