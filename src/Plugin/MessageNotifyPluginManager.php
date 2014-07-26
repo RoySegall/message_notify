@@ -7,8 +7,6 @@
 
 namespace Drupal\message_notify\Plugin;
 
-use Drupal\Core\Cache\CacheBackendInterface;
-use Drupal\Core\Language\LanguageManager;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
 
