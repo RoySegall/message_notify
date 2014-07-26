@@ -1,11 +1,23 @@
 <?php
 
-/**
- * @file
- * SMS notifier.
- */
+namespace Drupal\message_notifier\Plugin\Notifier;
 
-class MessageNotifierSMS extends MessageNotifierBase {
+use Drupal\message_notify\MessageNotifierAbstract;
+use Drupal\message_notify\MessageNotifyException;
+
+
+/**
+ * Redirects to a message deletion form.
+ *
+ * @Notifier(
+ *  id = "sms",
+ *  label = @Translation("SMS"),
+ *  view_modes = {
+ *    sms_body = @Translation("Notify - SMS Body"),
+ *  }
+ * )
+ */
+class Sms extends MessageNotifierAbstract {
 
   public function deliver(array $output = array()) {
     if (empty($this->message->smsNumber)) {

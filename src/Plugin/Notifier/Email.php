@@ -1,9 +1,22 @@
 <?php
 
+namespace Drupal\message_notifier\Plugin\Notifier;
+
+use Drupal\message_notify\MessageNotifierAbstract;
+
 /**
- * Email notifier.
+ * Redirects to a message deletion form.
+ *
+ * @Notifier(
+ *  id = "email",
+ *  label = @Translation("Email"),
+ *  view_modes = {
+ *    email_subject = @Translation("Notify - Email subject"),
+ *    email_body = @Translation("Notify - Email body"),
+ *  }
+ * )
  */
-class MessageNotifierEmail extends MessageNotifierBase {
+class Email extends MessageNotifierAbstract {
 
   public function deliver(array $output = array()) {
     $plugin = $this->plugin;
@@ -31,5 +44,4 @@ class MessageNotifierEmail extends MessageNotifierBase {
     $result =  drupal_mail('message_notify', $message->type, $mail, $lang, $output);
     return $result['result'];
   }
-
 }
