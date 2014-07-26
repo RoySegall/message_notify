@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \Drupal\message_notify\Annotation\Notify.
+ * Contains Drupal\ckeditor\Annotation\CKEditorPlugin.
  */
 
 namespace Drupal\message_notify\Annotation;
@@ -10,7 +10,16 @@ namespace Drupal\message_notify\Annotation;
 use Drupal\Component\Annotation\Plugin;
 
 /**
- * Defines a message notify annotation object.
+ * Defines a CKEditorPlugin annotation object.
+ *
+ * Plugin Namespace: Plugin\CKEditorPlugin
+ *
+ * For a working example, see \Drupal\ckeditor\Plugin\CKEditorPlugin\DrupalImage
+ *
+ * @see \Drupal\ckeditor\CKEditorPluginInterface
+ * @see \Drupal\ckeditor\CKEditorPluginBase
+ * @see \Drupal\ckeditor\CKEditorPluginManager
+ * @see plugin_api
  *
  * @Annotation
  */
@@ -24,16 +33,12 @@ class Notify extends Plugin {
   public $id;
 
   /**
-   * The name of the person.
+   * The human-readable name of the CKEditor plugin.
    *
-   * @var string
+   * @ingroup plugin_translatable
+   *
+   * @var \Drupal\Core\Annotation\Translation
    */
-  public $name = 'John Doe';
+  public $label;
 
-  /**
-   * The age of the person.
-   *
-   * @var string
-   */
-  public $age = '100';
 }
