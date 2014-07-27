@@ -1,0 +1,8 @@
+# Used for testing. Remove when going to stable versions.
+message_notify.test:
+  path: '/message_notify/test'
+  defaults:
+    _content: '\Drupal\message_notify\MessageNotify::content'
+    _title: 'Testing'
+  requirements:
+    _permission: 'administer message types'

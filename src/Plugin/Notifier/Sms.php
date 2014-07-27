@@ -34,4 +34,11 @@ class Sms extends MessageNotifierAbstract {
 
     return sms_send($this->message->smsNumber, strip_tags($output['message_notify_sms_body']));
   }
+
+  /**
+   * The module can be exists only when the module SMS exists.
+   */
+  public function access() {
+    return \Drupal::moduleHandler()->moduleExists('sms');
+  }
 }

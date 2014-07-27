@@ -2,17 +2,7 @@
 
 namespace Drupal\message_notify;
 
-use Drupal\message\Entity\Message;
-
 interface MessageNotifierInterface {
-
-  /**
-   * Constructor for the notifier.
-   *
-   * @param Message $message
-   *   The Message entity.
-   */
-  public function __construct(Message $message);
 
   /**
    * Entry point to send and process a message.
@@ -43,4 +33,14 @@ interface MessageNotifierInterface {
    * Determine if user can access notifier.
    */
   public function access();
+
+  /**
+   * Add Attachments.
+   */
+  public function setAttachments();
+
+  /**
+   * Get Attachments.
+   */
+  public function getAttachments();
 }

@@ -16,8 +16,25 @@ abstract class MessageNotifierAbstract implements MessageNotifierInterface {
    */
   protected $message;
 
-  public function __construct(Message $message) {
+  /**
+   * @var Array
+   * A list of attachments.
+   */
+  protected $attachment;
+
+  /**
+   * Set the message property of the class.
+   *
+   * @param Message $message
+   *  The class object.
+   *
+   * @return $this.
+   *
+   * @todo: Create a dependency injection of the message object.
+   */
+  public function setMessage(Message $message) {
     $this->message = $message;
+    return $this;
   }
 
   public function send() {
@@ -89,5 +106,11 @@ abstract class MessageNotifierAbstract implements MessageNotifierInterface {
 
   public function access() {
     return TRUE;
+  }
+
+  public function setAttachments() {
+  }
+
+  public function getAttachments() {
   }
 }
