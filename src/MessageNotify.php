@@ -2,7 +2,7 @@
 
 namespace Drupal\message_notify;
 
-use Drupal\contact\Entity\Message;
+use Drupal\message\Entity\MessageType;
 
 class MessageNotify {
 
@@ -50,14 +50,18 @@ class MessageNotify {
    */
   public static function content() {
 
-    if (!\Drupal::moduleHandler()->moduleExists('message_example')) {
-      drupal_set_message(t('The message example module need to be turned on for this page.'), 'error');
-
-      return;
+    if (!MessageType::load('dummy_message')) {
+      $messageType = MessageType::Create(array(
+        'type' => 'dummy_message',
+        'label' => 'Dummy message',
+        'description' => 'foo',
+      ));
+      $messageType->setText(array('Testing'));
+      $messageType->save();
     }
 
     /** @var \Drupal\message\Entity\Message $message */
-    $message = Message::create(array('type' => 'example_create_node'));
+    $message = entity_create('message', array('type' => 'dummy_message'));
 
     self::GetNotifier('Email')
       ->setMessage($message)
