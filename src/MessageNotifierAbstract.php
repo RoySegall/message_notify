@@ -18,23 +18,81 @@ abstract class MessageNotifierAbstract implements MessageNotifierInterface {
 
   /**
    * @var Array
+   *
    * A list of attachments.
    */
   protected $attachment;
 
   /**
-   * Set the message property of the class.
+   * @var String
    *
-   * @param Message $message
-   *  The class object.
+   * Allow to override the destination of the message. i.e: when dealing with
+   * email you can set the the email address or when dealing with SMS you can
+   * set the phone number.
+   */
+  protected $destination;
+
+  /**
+   * @var Array.
    *
-   * @return $this.
-   *
-   * @todo: Create a dependency injection of the message object.
+   * Holds settings for the current instance.
+   */
+  protected $settings;
+
+  /**
+   * {@inheritdoc}
    */
   public function setMessage(Message $message) {
     $this->message = $message;
+
     return $this;
+  }
+
+  /**
+   * Set a visibility of the plugin.
+   *
+   * @return bool
+   */
+  public function access() {
+    return TRUE;
+  }
+
+  /**
+   * Set the attachment of the message.
+   *
+   * @return $this.
+   */
+  public function setAttachments() {
+    return $this;
+  }
+
+  /**
+   * Get the message attachment.
+   */
+  public function getAttachments() {
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setSettings() {
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getSettings() {
+    return $this->settings;
+  }
+
+  /**
+   * Retrieve the message object.
+   *
+   * @return Message.
+   */
+  public function getMessage() {
+    return $this->message;
   }
 
   public function send() {
@@ -102,15 +160,5 @@ abstract class MessageNotifierAbstract implements MessageNotifierInterface {
     if ($save) {
       $message->save();
     }
-  }
-
-  public function access() {
-    return TRUE;
-  }
-
-  public function setAttachments() {
-  }
-
-  public function getAttachments() {
   }
 }

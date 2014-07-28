@@ -2,6 +2,8 @@
 
 namespace Drupal\message_notify;
 
+use Drupal\message\Entity\Message;
+
 interface MessageNotifierInterface {
 
   /**
@@ -43,4 +45,31 @@ interface MessageNotifierInterface {
    * Get Attachments.
    */
   public function getAttachments();
+
+  /**
+   * Set the message property of the class.
+   *
+   * @param Message $message
+   *  The class object.
+   *
+   * @return $this
+   *
+   * @todo: Create a dependency injection of the message object.
+   */
+  public function setMessage(Message $message);
+
+  /**
+   * Set the settings for the plugin instance.
+   *
+   * @return $this.
+   */
+  public function setSettings();
+
+  /**
+   * Retrieve the settings of the current instance.
+   *
+   * @return Array
+   */
+  public function getSettings();
+
 }
