@@ -21,16 +21,26 @@ class Email extends MessageNotifierAbstract {
   public function deliver(array $output = array()) {
     $message = $this->message;
 
-    $options = $plugin['options'];
+    if (!$message->getAuthor()) {
+      if (!$this->destination) {
+        $param['@type'] = $message->getType()->label();
+        $error = t('The message from the type of @type could not be sent since she belong to anonymous user.', $param);
+        watchdog('message_notify',$error);
+        drupal_set_message($error, 'error');
+        return;
+      }
 
-    $mail = $options['mail'] ? $options['mail'] : $this->message->getAuthor()->getEmail();
-
-    $languages = \Drupal::languageManager()->getLanguages();
-    if (!$options['language override']) {
-      $lang = !empty($account->language) && $account->language != LANGUAGE_NONE ? $languages[$account->language]: language_default();
+      $mail = $this->destination;
     }
     else {
-      $lang = $languages[$message->language];
+      $mail = $message->getAuthor()->getEmail();
+    }
+
+    if (!$this->settings['language override']) {
+      $lang = $message->getAuthor()->getPreferredLangcode() ? $message->getAuthor()->getPreferredLangcode() : \Drupal::languageManager()->getCurrentLanguage()->getId();
+    }
+    else {
+      $lang = $message->getTranslationLanguages();
     }
 
     // The subject in an email can't be with HTML, so strip it.
@@ -39,7 +49,7 @@ class Email extends MessageNotifierAbstract {
     // Pass the message entity along to hook_drupal_mail().
     $output['message_entity'] = $message;
 
-    $result =  drupal_mail('message_notify', $message->type, $mail, $lang, $output);
+    $result =  drupal_mail('message_notify', $message->getType()->id(), $mail, $lang, $output);
     return $result['result'];
   }
 }

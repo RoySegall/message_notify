@@ -2,12 +2,13 @@
 
 namespace Drupal\message_notify;
 
+use Drupal\Core\Plugin\PluginBase;
 use \Drupal\message\Entity\Message;
 
 /**
  * An abstract implementation of MessageNotifierInterface.
  */
-abstract class MessageNotifierAbstract implements MessageNotifierInterface {
+abstract class MessageNotifierAbstract extends PluginBase implements MessageNotifierInterface {
 
   /**
    * @var Message
@@ -38,6 +39,13 @@ abstract class MessageNotifierAbstract implements MessageNotifierInterface {
    * Holds settings for the current instance.
    */
   protected $settings;
+
+  /**
+   * @var String
+   *
+   * Holds the language of the message text meant to be sent.
+   */
+  protected $language;
 
   /**
    * {@inheritdoc}
@@ -87,6 +95,21 @@ abstract class MessageNotifierAbstract implements MessageNotifierInterface {
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function setLanguage($language) {
+    $this->language = $language;
+    return $this;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getLanguage() {
+    return $this->language;
+  }
+
+  /**
    * Retrieve the message object.
    *
    * @return Message.
@@ -98,9 +121,9 @@ abstract class MessageNotifierAbstract implements MessageNotifierInterface {
   public function send() {
     $message = $this->message;
     $output = array();
-    foreach ($this->plugin['view_modes'] as $view_mode => $value) {
-      $content = $message->buildContent($view_mode);
-      $output[$view_mode] = render($content);
+    foreach ($this->pluginDefinition['view_modes'] as $view_mode => $value) {
+//      $content = $message->buildContent($view_mode);
+      $output[$view_mode] = 'a';
     }
     $result = $this->deliver($output);
     $this->postSend($result, $output);

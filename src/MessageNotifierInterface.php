@@ -72,4 +72,14 @@ interface MessageNotifierInterface {
    */
   public function getSettings();
 
+  /**
+   * Set the language code of the message text.
+   */
+  public function setLanguage($language);
+
+  /**
+   * Retrieve the language code of the message.
+   */
+  public function getLanguage();
+
 }

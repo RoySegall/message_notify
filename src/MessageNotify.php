@@ -62,6 +62,7 @@ class MessageNotify {
 
     /** @var \Drupal\message\Entity\Message $message */
     $message = entity_create('message', array('type' => 'dummy_message'));
+    $message->setAuthorId(1);
 
     self::GetNotifier('Email')
       ->setMessage($message)
