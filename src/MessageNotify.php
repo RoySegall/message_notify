@@ -65,8 +65,8 @@ class MessageNotify {
     $message->setAuthorId(1);
 
     self::GetNotifier('Email')
-      ->setMessage($message)
-      ->send();
+      ->setMessage($message);
+//      ->send();
 
     return '';
   }

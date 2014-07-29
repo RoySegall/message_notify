@@ -49,7 +49,7 @@ class Email extends MessageNotifierAbstract {
     // Pass the message entity along to hook_drupal_mail().
     $output['message_entity'] = $message;
 
-    $result =  drupal_mail('message_notify', $message->getType()->id(), $mail, $lang, $output);
+    $result = drupal_mail('message_notify', $message->getType()->id(), $mail, $lang, $output);
     return $result['result'];
   }
 }

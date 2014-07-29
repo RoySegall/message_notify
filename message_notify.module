@@ -7,29 +7,23 @@
 use Drupal\message_notify\MessageNotify;
 
 /**
- * Implements hook_entity_info_alter().
+ * Implements hook_entity_view_mode_info_alter().
  *
  * Add a the notifiers view modes.
  */
-function message_notify_entity_type_alter(&$entity_info) {
+function message_notify_entity_view_mode_info_alter(&$view_modes) {
   $notifiers = MessageNotify::GetNotifiers();
 
   foreach ($notifiers as $notifier) {
+    $plugin_view_modes = $notifier['view_modes'];
 
-  }
-
-  return;
-  /* @var $entity_info \Drupal\Core\Entity\EntityTypeInterface[] */
-
-  $entity_info['message'];
-
-  foreach (message_notify_get_notifiers() as $plugin) {
-    $view_modes = $plugin['view_modes'];
-    // Set default values.
-    foreach ($view_modes as &$view_mode) {
-      $view_mode += array('custom settings' => TRUE);
+    foreach ($plugin_view_modes as $type => $view_mode) {
+      $view_modes['message'][$type] = array(
+        'label' => $view_mode->render(),
+        'status' => TRUE,
+        'cache' => TRUE,
+      );
     }
-    $entity_info['message']['view modes'] += $view_modes;
   }
 }
 
@@ -39,6 +33,7 @@ function message_notify_entity_type_alter(&$entity_info) {
  * Set's the message subject and body as configured.
  */
 function message_notify_mail($key, &$message, $params) {
-  $message['subject'] = $params['message_notify_email_subject'];
-  $message['body'][] = $params['message_notify_email_body'];
+  // Get from the
+  $message['subject'] = 'foo';
+  $message['body'][] = 'bar';
 }
