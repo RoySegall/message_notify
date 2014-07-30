@@ -4,6 +4,7 @@
  * @file
  * Message notify.
  */
+use Drupal\entity\Entity\EntityViewMode;
 use Drupal\message_notify\MessageNotify;
 
 /**
@@ -17,12 +18,20 @@ function message_notify_entity_view_mode_info_alter(&$view_modes) {
   foreach ($notifiers as $notifier) {
     $plugin_view_modes = $notifier['view_modes'];
 
-    foreach ($plugin_view_modes as $type => $view_mode) {
-      $view_modes['message'][$type] = array(
-        'label' => $view_mode->render(),
-        'status' => TRUE,
-        'cache' => TRUE,
-      );
+    foreach ($plugin_view_modes as $type => $plugin_view_mode) {
+
+      if (entity_load('view_mode', 'message.' . $type)) {
+        // The view mode already created. Skipping.
+        continue;
+      }
+
+      /** @var EntityViewMode $view_mode */
+      $view_mode = entity_create('view_mode');
+      $view_mode->targetEntityType = 'message';
+      $view_mode->label = $plugin_view_mode->render();
+      $view_mode->setStatus(TRUE);
+      $view_mode->id = 'message.' . $type;
+      $view_mode->save();
     }
   }
 }
