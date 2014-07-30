@@ -64,6 +64,8 @@ class MessageNotify {
     $message = entity_create('message', array('type' => 'dummy_message'));
     $message->setAuthorId(1);
 
+    dpm(entity_view($message, 'email_subject'));
+
     self::GetNotifier('Email')
       ->setMessage($message);
 //      ->send();
