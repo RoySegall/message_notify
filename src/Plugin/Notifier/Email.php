@@ -2,7 +2,9 @@
 
 namespace Drupal\message_notify\Plugin\Notifier;
 
+use Drupal\message\Entity\Message;
 use Drupal\message_notify\MessageNotifierAbstract;
+use Drupal\message_notify\MessageNotifyException;
 
 /**
  * Redirects to a message deletion form.
@@ -21,6 +23,20 @@ class Email extends MessageNotifierAbstract {
   /**
    * {@inheritdoc}
    */
+  function __construct(array $configuration, $plugin_id, $plugin_definition) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+    if (!$configuration['message'] instanceof Message) {
+      $message = t('An object from the Message instance is missing.');
+      watchdog('message_notify', $message);
+      throw new MessageNotifyException($message);
+    }
+
+    $this->setMessage($configuration['message']);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function deliver(array $output = array()) {
     $message = $this->message;
 
@@ -30,7 +46,7 @@ class Email extends MessageNotifierAbstract {
         $error = t('The message from the type of @type could not be sent since she belong to anonymous user.', $param);
         watchdog('message_notify',$error);
         drupal_set_message($error, 'error');
-        return;
+        return '';
       }
 
       $mail = $this->destination;

@@ -118,17 +118,26 @@ abstract class MessageNotifierAbstract extends PluginBase implements MessageNoti
     return $this->message;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function send() {
     $output = array();
+
     foreach (array_keys($this->pluginDefinition['view_modes']) as $view_mode) {
       $view = entity_view($this->message, $view_mode);
       $output[$view_mode] = render($view);
     }
+
     $result = $this->deliver($output);
+
     $this->postSend($result, $output);
     return $result;
   }
 
+  /**
+   * {@inheritdoc}
+   */
   public function deliver(array $output = array()) {
     return '';
   }

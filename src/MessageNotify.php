@@ -29,18 +29,24 @@ class MessageNotify {
    *
    * @param $type
    *  The notifier ID.
+   * @param array $settings
+   *  Default settings for the notifier handler.
+   *  @code
+   *    $message = Message::Load(1);
+   *    array('message' => $message)
+   *  @encode
    *
    * @return bool|MessageNotifierAbstract
    *  A notify instance.
    */
-  public static function GetNotifier($type) {
+  public static function GetNotifier($type, array $settings = array()) {
 
     if (!self::GetNotifiers($type)) {
       return FALSE;
     }
 
     /** @var MessageNotifierAbstract $instance */
-    $instance = \Drupal::service('plugin.manager.message.notify')->createInstance($type);
+    $instance = \Drupal::service('plugin.manager.message.notify')->createInstance($type, $settings);
 
     return $instance->access() ? $instance : NULL;
   }
@@ -64,7 +70,7 @@ class MessageNotify {
     $message = entity_create('message', array('type' => 'dummy_message'));
     $message->setAuthorId(1);
 
-    self::GetNotifier('Email')
+    self::GetNotifier('Email', array('message' => $message))
       ->setMessage($message)
       ->send();
 
