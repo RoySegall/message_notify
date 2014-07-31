@@ -42,7 +42,7 @@ function message_notify_entity_view_mode_info_alter(&$view_modes) {
  * Set's the message subject and body as configured.
  */
 function message_notify_mail($key, &$message, $params) {
-  // Get from the
-  $message['subject'] = 'foo';
-  $message['body'][] = 'bar';
+  // Send the email.
+  $message['subject'] = $params['email_subject'];
+  $message['body'][] = $params['email_body'];
 }

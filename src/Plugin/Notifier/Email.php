@@ -18,6 +18,9 @@ use Drupal\message_notify\MessageNotifierAbstract;
  */
 class Email extends MessageNotifierAbstract {
 
+  /**
+   * {@inheritdoc}
+   */
   public function deliver(array $output = array()) {
     $message = $this->message;
 
