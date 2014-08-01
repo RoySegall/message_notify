@@ -12,13 +12,29 @@ use Drupal\Component\Annotation\Plugin;
 /**
  * Define a message notify annotation object.
  *
- * todo: Add default settings.
- *
  * @Annotation
  */
 class Notify extends Plugin {
 
+  /**
+   * @var String
+   *
+   * The identifier of the plugin.
+   */
   public $id;
+
+  /**
+   * @var String
+   *
+   * The label fo the plugin.
+   */
   public $label;
+
+  /**
+   * @var Array.
+   *
+   * Holds the view mode of the plugin for the message type.
+   */
+  public $view_modes;
 
 }
