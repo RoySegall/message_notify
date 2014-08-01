@@ -19,7 +19,7 @@ use Drupal\message_notify\MessageNotifyException;
  */
 class Sms extends MessageNotifierAbstract {
 
-  public function deliver(array $output = array()) {
+  public function deliver() {
     if (empty($this->message->smsNumber)) {
       // Try to get the SMS number from the account.
       $account = user_load($this->message->uid);
@@ -32,7 +32,7 @@ class Sms extends MessageNotifierAbstract {
       throw new MessageNotifyException('Message cannot be sent using SMS as the "smsNumber" property is missing from the Message entity or user entity.');
     }
 
-    return sms_send($this->message->smsNumber, strip_tags($output['message_notify_sms_body']));
+    return sms_send($this->message->smsNumber, strip_tags($this->viewModes['sms_body']));
   }
 
   /**

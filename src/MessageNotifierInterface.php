@@ -17,14 +17,10 @@ interface MessageNotifierInterface {
   /**
    * Deliver a message via the required transport method.
    *
-   * @param $output
-   *   Array keyed by the view mode, and the rendered entity in the
-   *   specified view mode.
-   *
    * @return
    *   TRUE or FALSE based on delivery status.
    */
-  public function deliver(array $output = array());
+  public function deliver();
 
   /**
    * Post send operations.
@@ -53,8 +49,6 @@ interface MessageNotifierInterface {
    *  The class object.
    *
    * @return $this
-   *
-   * @todo: Create a dependency injection of the message object.
    */
   public function setMessage(Message $message);
 
@@ -85,4 +79,10 @@ interface MessageNotifierInterface {
    */
   public function getLanguage();
 
+  /**
+   * Retrieve the view modes rendered value.
+   *
+   * @return array.
+   */
+  public function getViewModes();
 }

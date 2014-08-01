@@ -48,6 +48,13 @@ abstract class MessageNotifierAbstract extends PluginBase implements MessageNoti
   protected $language;
 
   /**
+   * @var array
+   *
+   * Holds the view modes rendered value.
+   */
+  protected $viewModes = array();
+
+  /**
    * {@inheritdoc}
    */
   public function setMessage(Message $message) {
@@ -112,6 +119,13 @@ abstract class MessageNotifierAbstract extends PluginBase implements MessageNoti
   }
 
   /**
+   * {@inheritdoc}
+   */
+  public function getViewModes() {
+    return $this->viewModes;
+  }
+
+  /**
    * Retrieve the message object.
    *
    * @return Message.
@@ -128,10 +142,10 @@ abstract class MessageNotifierAbstract extends PluginBase implements MessageNoti
 
     foreach (array_keys($this->pluginDefinition['view_modes']) as $view_mode) {
       $view = entity_view($this->message, $view_mode);
-      $output[$view_mode] = render($view);
+      $this->viewModes[$view_mode] = render($view);
     }
 
-    $result = $this->deliver($output);
+    $result = $this->deliver();
 
     $this->postSend($result, $output);
     return $result;
@@ -140,7 +154,7 @@ abstract class MessageNotifierAbstract extends PluginBase implements MessageNoti
   /**
    * {@inheritdoc}
    */
-  public function deliver(array $output = array()) {
+  public function deliver() {
     return '';
   }
 

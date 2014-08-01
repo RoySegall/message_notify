@@ -37,7 +37,7 @@ class Email extends MessageNotifierAbstract {
   /**
    * {@inheritdoc}
    */
-  public function deliver(array $output = array()) {
+  public function deliver() {
     $message = $this->message;
 
     if (!$message->getAuthor()) {
@@ -63,7 +63,10 @@ class Email extends MessageNotifierAbstract {
     }
 
     // The subject in an email can't be with HTML, so strip it.
-    $output['email_subject'] = strip_tags($output['email_subject']);
+    $output['email_subject'] = strip_tags($this->viewModes['email_subject']);
+
+    // Pass the view body view mode.
+    $output['email_body'] = $this->viewModes['email_body'];
 
     // Pass the message entity along to hook_drupal_mail().
     $output['message_entity'] = $message;
