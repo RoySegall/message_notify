@@ -61,9 +61,12 @@ interface MessageNotifierInterface {
   /**
    * Set the settings for the plugin instance.
    *
+   * @param array $settings
+   *  Array of settings.
+   *
    * @return $this.
    */
-  public function setSettings();
+  public function setSettings(array $settings);
 
   /**
    * Retrieve the settings of the current instance.

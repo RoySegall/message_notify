@@ -78,12 +78,14 @@ abstract class MessageNotifierAbstract extends PluginBase implements MessageNoti
    * Get the message attachment.
    */
   public function getAttachments() {
+    return $this->attachment;
   }
 
   /**
    * {@inheritdoc}
    */
-  public function setSettings() {
+  public function setSettings(array $settings) {
+    $this->settings = $settings;
     return $this;
   }
 
