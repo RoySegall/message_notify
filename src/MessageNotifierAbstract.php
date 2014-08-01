@@ -73,6 +73,15 @@ abstract class MessageNotifierAbstract extends PluginBase implements MessageNoti
   }
 
   /**
+   * {@inheritdoc}
+   */
+  function __construct(array $configuration, $plugin_id, $plugin_definition) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition);
+
+    $this->settings = array_merge($configuration, $this->settings);
+  }
+
+  /**
    * Set the attachment of the message.
    *
    * @return $this.
@@ -165,45 +174,18 @@ abstract class MessageNotifierAbstract extends PluginBase implements MessageNoti
    * - Invoke watchdog error on failure.
    */
   public function postSend($result, array $output = array()) {
-    $plugin = $this->plugin;
+    $plugin = $this->pluginDefinition;
     $message = $this->message;
-
-    $options = $plugin['options'];
 
     $save = FALSE;
     if (!$result) {
       watchdog('message_notify', t('Could not send message using @title to user ID @uid.'), array('@label' => $plugin['title'], '@uid' => $message->uid), WATCHDOG_ERROR);
-      if ($options['save on fail']) {
+      if ($this->settings['save on fail']) {
         $save = TRUE;
       }
     }
-    elseif ($result && $options['save on success']) {
+    elseif ($result && $this->settings['save on success']) {
       $save = TRUE;
-    }
-
-    if ($options['rendered fields']) {
-      // Save the rendered output into matching fields.
-      $wrapper = entity_metadata_wrapper('message', $message);
-      foreach ($this->plugin['view_modes'] as $view_mode => $mode) {
-        if (empty($options['rendered fields'][$view_mode])) {
-          throw new MessageNotifyException(format_string('The rendered view mode @mode cannot be saved to field, as there is not a matching one.', array('@mode' => $mode['label'])));
-        }
-        $field_name = $options['rendered fields'][$view_mode];
-
-        if (!$field = field_info_field($field_name)) {
-          throw new MessageNotifyException(format_string('Field @field does not exist.', array('@field' => $field_name)));
-        }
-
-        // Get the format from the field. We assume the first delta is the
-        // same as the rest.
-        if (empty($wrapper->{$field_name}->format)) {
-          $wrapper->{$field_name}->set($output[$view_mode]);
-        }
-        else {
-          $format = $wrapper->type->{MESSAGE_FIELD_MESSAGE_TEXT}->get(0)->format->value();
-          $wrapper->{$field_name}->set(array('value' => $output[$view_mode], 'format' => $format));
-        }
-      }
     }
 
     if ($save) {
