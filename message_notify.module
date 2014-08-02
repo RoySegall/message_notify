@@ -5,6 +5,7 @@
  * Message notify.
  */
 use Drupal\entity\Entity\EntityViewMode;
+use Drupal\message\Entity\Message;
 use Drupal\message_notify\MessageNotify;
 
 /**
@@ -45,4 +46,21 @@ function message_notify_mail($key, &$message, $params) {
   // Send the email.
   $message['subject'] = $params['email_subject'];
   $message['body'][] = $params['email_body'];
+}
+
+/**
+ * Send the message.
+ *
+ * @param Message $message
+ *  The message object.
+ * @param String $notifier
+ *  The notifier ID. Default to Email.
+ * @param Array $options
+ *  Additional options that will be passed to the notifier plugin.
+ */
+function message_notify_send_message(Message $message, $notifier = 'Email', $options = array()) {
+  $options = $options + array('message' => $message);
+  MessageNotify::GetNotifier('Email', $options)
+    ->setMessage($message)
+    ->send();
 }

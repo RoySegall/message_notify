@@ -4,16 +4,20 @@
  * Code for the Message notify example feature.
  */
 
-include_once('message_notify_example.features.inc');
+use Drupal\comment\Entity\Comment;
+use Drupal\message\Entity\Message;
 
 /**
  * Implements hook_comment_insert().
  *
  * Send a message to the node author when a new comment is created.
  */
-function message_notify_example_comment_insert($comment) {
-  $node = node_load($comment->nid);
-  if ($comment->uid == $node->uid) {
+function message_notify_example_comment_insert(Comment $comment) {
+
+  /** @var Drupal\node\Entity\Node $node */
+  $node = $comment->getCommentedEntity();
+
+  if ($comment->getOwnerId() == $node->getOwnerId()) {
     // The comment author is also the node author, and we would ususally
     // return early here, but since this is an example, we send an email
     // anyway.
@@ -22,23 +26,9 @@ function message_notify_example_comment_insert($comment) {
   // Create a new message, assigned to the node author, and add a
   // reference to the comment, so we can later use tokens related to that
   // comment.
-  $message = message_create('comment_insert', array('uid' => $node->uid));
-  $wrapper = entity_metadata_wrapper('message', $message);
-  $wrapper->field_comment_ref->set($comment);
+  $message = Message::Create(array('type' => 'comment_insert', 'uid' => $node->getOwnerId()));
+  $message->set('field_comment_ref', $comment);
 
-  // Let message-notify deliver the email, and send the message for us.
-  // We pass in the options the field names, that will be used to capture
-  // the rendered message, and provide an email log.
-  $options = array(
-    'rendered fields' => array(
-      'message_notify_email_subject' => 'field_message_rendered_subject',
-      'message_notify_email_body' => 'field_message_rendered_body',
-    ),
-  );
-
-  message_notify_send_message($message, $options);
-  if (module_exists('message_subscribe')) {
-    // If Message-subscribe exists, let this example module use it.
-    message_subscribe_send_message('comment', $comment, $message, array('email' => $options));
-  }
+  // Send the message.
+  message_notify_send_message($message);
 }
