@@ -11,7 +11,7 @@ use Drupal\message_notify\MessageNotify;
 /**
  * Implements hook_entity_view_mode_info_alter().
  *
- * Add a the notifiers view modes.
+ * Add the notifiers view modes.
  */
 function message_notify_entity_view_mode_info_alter(&$view_modes) {
   $notifiers = MessageNotify::GetNotifiers();
@@ -22,7 +22,7 @@ function message_notify_entity_view_mode_info_alter(&$view_modes) {
     foreach ($plugin_view_modes as $type => $plugin_view_mode) {
 
       if (entity_load('view_mode', 'message.' . $type)) {
-        // The view mode already created. Skipping.
+        // The view mode already exists. Skipping.
         continue;
       }
 
