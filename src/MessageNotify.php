@@ -14,7 +14,7 @@ class MessageNotify {
    *
    * @return null|array
    */
-  public static function GetNotifiers($type = NULL) {
+  public static function Notifiers($type = NULL) {
     $notifiers = \Drupal::service('plugin.manager.message.notify')->getDefinitions();
 
     if ($type) {
@@ -39,9 +39,9 @@ class MessageNotify {
    * @return bool|MessageNotifierAbstract
    *  A notify instance.
    */
-  public static function GetNotifier($type, array $settings = array()) {
+  public static function Notifier($type, array $settings = array()) {
 
-    if (!self::GetNotifiers($type)) {
+    if (!self::Notifiers($type)) {
       return FALSE;
     }
 
@@ -70,7 +70,7 @@ class MessageNotify {
     $message = entity_create('message', array('type' => 'dummy_message'));
     $message->setAuthorId(1);
 
-    self::GetNotifier('Email', array('message' => $message))
+    self::Notifier('Email', array('message' => $message))
       ->setMessage($message)
       ->send();
 
