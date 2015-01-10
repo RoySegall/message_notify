@@ -22,7 +22,7 @@ class Sms extends MessageNotifierAbstract {
   public function deliver() {
     if (empty($this->message->smsNumber)) {
       // Try to get the SMS number from the account.
-      $account = user_load($this->message->uid);
+      $account = $this->message->getAuthor();
       if (!empty($account->sms_user['number'])) {
         $this->message->smsNumber = $account->sms_user['number'];
       }

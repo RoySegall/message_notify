@@ -6,6 +6,7 @@
 
 use Drupal\comment\Entity\Comment;
 use Drupal\message\Entity\Message;
+use Drupal\message_notify\MessageNotify;
 
 /**
  * Implements hook_comment_insert().
@@ -30,5 +31,5 @@ function message_notify_example_comment_insert(Comment $comment) {
   $message->set('field_comment_ref', $comment);
 
   // Send the message.
-  message_notify_send_message($message);
+  MessageNotify::sendMessage($message);
 }

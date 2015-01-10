@@ -1,4 +1,6 @@
 <?php
+use Drupal\message_notify\MessageNotify;
+use Drupal\message_notify\MessageNotifyException;
 
 /**
  * Test the Message notifier plugins handling.
@@ -67,7 +69,7 @@ class MessageNotifyNotifierTest extends DrupalWebTestCase {
   function testDeliver() {
     $wrapper = entity_metadata_wrapper('message_type', $this->message_type);
     $message = message_create('foo');
-    message_notify_send_message($message, array(), 'test');
+    MessageNotify::sendMessage($message, array(), 'test');
 
     // The test notifier added the output to the message.
     $output = $message->output;
@@ -81,12 +83,12 @@ class MessageNotifyNotifierTest extends DrupalWebTestCase {
   function testPostSendMessageSave() {
     $message = message_create('foo');
     $message->fail = FALSE;
-    message_notify_send_message($message, array(), 'test');
+    MessageNotify::sendMessage($message, array(), 'test');
     $this->assertTrue($message->mid, 'Message not saved after successful delivery.');
 
     $message = message_create('foo');
     $message->fail = TRUE;
-    message_notify_send_message($message, array(), 'test');
+    MessageNotify::sendMessage($message, array(), 'test');
     $this->assertTrue($message->mid, 'Message not saved after unsuccessful delivery.');
 
     // Disable saving Message on delivery.
@@ -97,12 +99,12 @@ class MessageNotifyNotifierTest extends DrupalWebTestCase {
 
     $message = message_create('foo');
     $message->fail = FALSE;
-    message_notify_send_message($message, $options, 'test');
+    MessageNotify::sendMessage($message, $options, 'test');
     $this->assertTrue($message->is_new, 'Message not saved after successful delivery.');
 
     $message = message_create('foo');
     $message->fail = TRUE;
-    message_notify_send_message($message, $options, 'test');
+    MessageNotify::sendMessage($message, $options, 'test');
     $this->assertTrue($message->is_new, 'Message not saved after unsuccessful delivery.');
   }
 
@@ -120,7 +122,7 @@ class MessageNotifyNotifierTest extends DrupalWebTestCase {
       ),
     );
     $message = message_create('foo');
-    message_notify_send_message($message, $options, 'test');
+    MessageNotify::sendMessage($message, $options, 'test');
     $wrapper = entity_metadata_wrapper('message', $message);
     $this->assertTrue($wrapper->rendered_foo->value() && $wrapper->rendered_bar->value(), 'Message is rendered to fields.');
 
@@ -132,7 +134,7 @@ class MessageNotifyNotifierTest extends DrupalWebTestCase {
       ),
     );
     $message = message_create('foo');
-    message_notify_send_message($message, $options, 'test');
+    MessageNotify::sendMessage($message, $options, 'test');
     $wrapper = entity_metadata_wrapper('message', $message);
     $this->assertTrue($wrapper->rendered_baz->value->value() && $wrapper->rendered_bar->value(), 'Message is rendered to fields with text-processing.');
 
@@ -145,7 +147,7 @@ class MessageNotifyNotifierTest extends DrupalWebTestCase {
     );
     $message = message_create('foo');
     try {
-      message_notify_send_message($message, $options, 'test');
+      MessageNotify::sendMessage($message, $options, 'test');
       $this->fail('Can save rendered message with missing view mode.');
     }
     catch (MessageNotifyException $e) {
@@ -161,7 +163,7 @@ class MessageNotifyNotifierTest extends DrupalWebTestCase {
     );
     $message = message_create('foo');
     try {
-      message_notify_send_message($message, $options, 'test');
+      MessageNotify::sendMessage($message, $options, 'test');
       $this->fail('Can save rendered message to non-existing field.');
     }
     catch (MessageNotifyException $e) {

@@ -2,6 +2,7 @@
 
 namespace Drupal\message_notify;
 
+use Drupal\message\Entity\Message;
 use Drupal\message\Entity\MessageType;
 
 class MessageNotify {
@@ -56,6 +57,7 @@ class MessageNotify {
    */
   public static function content() {
 
+    // todo: remove after finishing with porting.
     if (!MessageType::load('dummy_message')) {
       $messageType = MessageType::Create(array(
         'type' => 'dummy_message',
@@ -75,5 +77,22 @@ class MessageNotify {
       ->send();
 
     return '';
+  }
+
+  /**
+   * Send the message.
+   *
+   * @param Message $message
+   *   The message object.
+   * @param String $notifier
+   *   The notifier ID. Default to Email.
+   * @param Array $options
+   *   Additional options that will be passed to the notifier plugin.
+   */
+  static function sendMessage(Message $message, $notifier = 'Email', $options = array()) {
+    $options = $options + array('message' => $message);
+    MessageNotify::Notifier($notifier, $options)
+      ->setMessage($message)
+      ->send();
   }
 }

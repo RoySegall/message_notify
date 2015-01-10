@@ -163,15 +163,10 @@ abstract class MessageNotifierAbstract extends PluginBase implements MessageNoti
   /**
    * {@inheritdoc}
    */
-  public function deliver() {
-    return '';
-  }
+  abstract public function deliver();
 
   /**
-   * Act upon send result.
-   *
-   * - Save the rendered messages if needed.
-   * - Invoke watchdog error on failure.
+   * {@inheritdoc}
    */
   public function postSend($result, array $output = array()) {
     $plugin = $this->pluginDefinition;
@@ -179,7 +174,7 @@ abstract class MessageNotifierAbstract extends PluginBase implements MessageNoti
 
     $save = FALSE;
     if (!$result) {
-      watchdog('message_notify', t('Could not send message using @title to user ID @uid.'), array('@label' => $plugin['title'], '@uid' => $message->uid), WATCHDOG_ERROR);
+      \Drupal::logger('message_notify')->error(t('Could not send message using @title to user ID @uid.'), array('@label' => $plugin['title'], '@uid' => $message->uid));
       if ($this->settings['save on fail']) {
         $save = TRUE;
       }

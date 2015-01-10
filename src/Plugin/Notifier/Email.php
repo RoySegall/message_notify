@@ -5,6 +5,7 @@ namespace Drupal\message_notify\Plugin\Notifier;
 use Drupal\message\Entity\Message;
 use Drupal\message_notify\MessageNotifierAbstract;
 use Drupal\message_notify\MessageNotifyException;
+use Drupal\Tests\Core\Mail\MailManagerTest;
 
 /**
  * Redirects to a message deletion form.
@@ -27,7 +28,7 @@ class Email extends MessageNotifierAbstract {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     if (!$configuration['message'] instanceof Message) {
       $message = t('An object from the Message instance is missing.');
-      watchdog('message_notify', $message);
+      \Drupal::logger('message_notify')->error($message);
       throw new MessageNotifyException($message);
     }
 
@@ -44,7 +45,7 @@ class Email extends MessageNotifierAbstract {
       if (!$this->destination) {
         $param['@type'] = $message->getType()->label();
         $error = t('The message from the type of @type could not be sent since she belong to anonymous user.', $param);
-        watchdog('message_notify',$error);
+        \Drupal::logger('message_notify')->error($message);
         drupal_set_message($error, 'error');
         return '';
       }
@@ -71,7 +72,7 @@ class Email extends MessageNotifierAbstract {
     // Pass the message entity along to hook_drupal_mail().
     $output['message_entity'] = $message;
 
-    $result = drupal_mail('message_notify', $message->getType()->id(), $mail, $lang, $output);
+    $result = \Drupal::service('plugin.manager.mail')->mail('message_notify', $message->getType()->id(), $mail, $lang, $output);
     return $result['result'];
   }
 }

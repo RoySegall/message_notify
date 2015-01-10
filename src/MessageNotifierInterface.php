@@ -23,7 +23,14 @@ interface MessageNotifierInterface {
   public function deliver();
 
   /**
-   * Post send operations.
+   * Post send operations; Save the rendered messages if needed. Invoke watchdog
+   * error on failure.
+   *
+   * @param $result
+   *   Results from the delivery method.
+   * @param $output
+   *   Array keyed by the view mode, and the rendered entity in the
+   *   specified view mode.
    */
   public function postSend($result, array $output = array());
 
@@ -46,9 +53,9 @@ interface MessageNotifierInterface {
    * Set the message property of the class.
    *
    * @param Message $message
-   *  The class object.
+   *   The class object.
    *
-   * @return $this
+   * @return MessageNotifierInterface
    */
   public function setMessage(Message $message);
 
@@ -56,7 +63,7 @@ interface MessageNotifierInterface {
    * Set the settings for the plugin instance.
    *
    * @param array $settings
-   *  Array of settings.
+   *   Array of settings.
    *
    * @return $this.
    */
