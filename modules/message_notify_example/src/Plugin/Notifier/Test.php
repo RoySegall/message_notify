@@ -2,10 +2,7 @@
 
 namespace Drupal\message_notify_example\Plugin\Notifier;
 
-use Drupal\message\Entity\Message;
 use Drupal\message_notify\MessageNotifierAbstract;
-use Drupal\message_notify\MessageNotifyException;
-use Drupal\Tests\Core\Mail\MailManagerTest;
 
 /**
  * Redirects to a message deletion form.
