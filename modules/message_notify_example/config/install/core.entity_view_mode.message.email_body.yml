@@ -1,0 +1,10 @@
+uuid: 8ea22cd6-a692-4016-ab00-ce69d15e6dce
+langcode: en
+status: true
+dependencies:
+  module:
+    - message
+id: message.email_body
+label: 'Notify - Email body'
+targetEntityType: message
+cache: true

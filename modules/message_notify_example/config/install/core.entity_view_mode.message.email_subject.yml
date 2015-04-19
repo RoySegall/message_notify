@@ -1,0 +1,10 @@
+uuid: 81cc51f8-dd01-4b9c-9700-a43813c8741a
+langcode: en
+status: true
+dependencies:
+  module:
+    - message
+id: message.email_subject
+label: 'Notify - Email subject'
+targetEntityType: message
+cache: true

@@ -1,0 +1,18 @@
+uuid: 51fc6ee3-67a1-4022-b526-3883ee1bf682
+langcode: en
+status: true
+dependencies: {  }
+type: message_notify_test_message
+label: 'Message notify test message'
+description: 'Example message for the message notify module.'
+text:
+  - "<p>This is the subject of the message</p>\r\n"
+  - "<p>This is the body of the message.</p>\r\n"
+data:
+  'token options':
+    clear: false
+  purge:
+    override: false
+    enabled: false
+    quota: null
+    days: null
