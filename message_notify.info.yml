@@ -1,8 +1,9 @@
 name: Message notify
 type: module
-description: "Message notify."
+description: Message notify.
 core: 8.x
 package: Message
+version: VERSION
 
 dependencies:
   - message

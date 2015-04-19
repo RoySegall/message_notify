@@ -12,6 +12,9 @@ use Drupal\message_notify\MessageNotify;
  * Implements hook_comment_insert().
  *
  * Send a message to the node author when a new comment is created.
+ *
+ * @param Comment $comment
+ *   The comment object.
  */
 function message_notify_example_comment_insert(Comment $comment) {
 
@@ -19,15 +22,16 @@ function message_notify_example_comment_insert(Comment $comment) {
   $node = $comment->getCommentedEntity();
 
   if ($comment->getOwnerId() == $node->getOwnerId()) {
-    // The comment author is also the node author, and we would ususally
-    // return early here, but since this is an example, we send an email
-    // anyway.
+    // The comment author is also the node author, and we would usually return
+    // early here, but since this is an example, we send an email anyway.
   }
 
-  // Create a new message, assigned to the node author, and add a
-  // reference to the comment, so we can later use tokens related to that
-  // comment.
-  $message = Message::Create(array('type' => 'comment_insert', 'uid' => $node->getOwnerId()));
+  // Create a new message, assigned to the node author, and add a reference to
+  // the comment, so we can later use tokens related to that comment.
+  $message = Message::Create([
+    'type' => 'comment_insert',
+    'uid' => $node->getOwnerId(),
+  ]);
   $message->set('field_comment_ref', $comment);
 
   // Send the message.

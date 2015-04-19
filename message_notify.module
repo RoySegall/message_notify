@@ -16,7 +16,7 @@ function message_notify_entity_view_mode_info_alter(&$view_modes) {
   $notifiers = MessageNotify::Notifiers();
 
   foreach ($notifiers as $notifier) {
-    $plugin_view_modes = $notifier['view_modes'];
+    w$plugin_view_modes = $notifier['view_modes'];
 
     foreach ($plugin_view_modes as $type => $plugin_view_mode) {
 
